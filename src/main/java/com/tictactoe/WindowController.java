@@ -1,9 +1,9 @@
-package com.example.tictactoe;
+package com.tictactoe;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
-public class HelloController {
+public class WindowController {
     @FXML
     private Label welcomeText;
 

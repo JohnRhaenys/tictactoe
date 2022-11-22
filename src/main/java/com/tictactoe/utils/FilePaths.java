@@ -1,4 +1,4 @@
-package com.tictactoe;
+package com.tictactoe.utils;
 
 import java.nio.file.Paths;
 

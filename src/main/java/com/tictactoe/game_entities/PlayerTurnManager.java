@@ -1,4 +1,4 @@
-package com.tictactoe;
+package com.tictactoe.game_entities;
 
 public class PlayerTurnManager {
     private Player current;

@@ -1,4 +1,4 @@
-package com.tictactoe;
+package com.tictactoe.game_entities;
 
 import javafx.scene.control.Label;
 

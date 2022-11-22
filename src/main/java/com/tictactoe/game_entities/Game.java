@@ -1,4 +1,4 @@
-package com.tictactoe;
+package com.tictactoe.game_entities;
 
 import static com.tictactoe.utils.Constants.GO_SIGNAL;
 import static com.tictactoe.utils.Constants.WAIT_SIGNAL;

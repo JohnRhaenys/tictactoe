@@ -1,5 +1,8 @@
-package com.tictactoe;
+package com.tictactoe.controllers;
 
+import com.tictactoe.game_entities.Game;
+import com.tictactoe.game_entities.Player;
+import com.tictactoe.game_entities.PlayerTurnManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -17,8 +20,8 @@ import java.net.URL;
 import java.nio.file.Paths;
 import java.util.ResourceBundle;
 
-import static com.tictactoe.FilePaths.CIRCLE_IMAGE_PATH;
-import static com.tictactoe.FilePaths.X_IMAGE_PATH;
+import static com.tictactoe.utils.FilePaths.CIRCLE_IMAGE_PATH;
+import static com.tictactoe.utils.FilePaths.X_IMAGE_PATH;
 import static com.tictactoe.utils.Constants.GO_SIGNAL;
 import static com.tictactoe.utils.Constants.WAIT_SIGNAL;
 

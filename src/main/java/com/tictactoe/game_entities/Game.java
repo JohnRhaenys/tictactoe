@@ -37,11 +37,6 @@ public class Game {
         this.xPlayer.setLabelText(WAIT_SIGNAL);
     }
 
-    private boolean isOver() {
-        // TODO - Implement this logic
-        return false;
-    }
-
     public boolean isRunning() {
         return isRunning;
     }
@@ -97,5 +92,11 @@ public class Game {
         possibleLines.addAll(getValuesFromHashMap(columns));
         possibleLines.addAll(getValuesFromHashMap(diagonals));
         return possibleLines;
+    }
+
+    public void reset() {
+        this.isRunning = false;
+        this.circlePlayer.setLabelText("YOU");
+        this.xPlayer.setLabelText("MACHINE");
     }
 }

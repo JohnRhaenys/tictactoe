@@ -8,6 +8,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -18,12 +20,14 @@ import javafx.scene.layout.GridPane;
 import java.io.File;
 import java.net.URL;
 import java.nio.file.Paths;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import static com.tictactoe.utils.FilePaths.CIRCLE_IMAGE_PATH;
 import static com.tictactoe.utils.FilePaths.X_IMAGE_PATH;
 import static com.tictactoe.utils.Constants.GO_SIGNAL;
 import static com.tictactoe.utils.Constants.WAIT_SIGNAL;
+import static com.tictactoe.utils.Helpers.getFilename;
 
 public class WindowController implements Initializable {
 
@@ -67,7 +71,22 @@ public class WindowController implements Initializable {
                 this.setGridCellImage(this.game.getPlayerTurnManager().getCurrent(), imageView);
                 Player winner = this.game.getWinner(this.gameGrid);
                 if (winner != null) {
-                    System.out.println("THE WINNER IS " + winner);
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Game over!!!");
+                    String winnerImagePath = getFilename(winner.getGamerImagePath());
+                    Character winnerName = null;
+                    if (winnerImagePath.equals(getFilename(CIRCLE_IMAGE_PATH))) {
+                        winnerName = 'O';
+                    }
+                    else if (winnerImagePath.equals(getFilename(X_IMAGE_PATH))) {
+                        winnerName = 'X';
+                    }
+                    alert.setContentText("The winner is " + winnerName);
+                    Optional<ButtonType> result = alert.showAndWait();
+                    if (result.isPresent() && result.get() == ButtonType.OK) {
+                        this.clearBoard();
+                        this.game.reset();
+                    }
                 }
                 else {
                     this.game.getPlayerTurnManager().switchTurns();
@@ -86,5 +105,15 @@ public class WindowController implements Initializable {
         imageView.setFitWidth(60);
         GridPane.setHalignment(imageView, HPos.CENTER);
         imageView.setImage(image);
+    }
+
+    private void clearBoard() {
+        for (Node node : this.gameGrid.getChildren()) {
+            if (node instanceof ImageView imageView) {
+                imageView.setImage(null);
+                imageView.setFitHeight(100);
+                imageView.setFitWidth(100);
+            }
+        }
     }
 }

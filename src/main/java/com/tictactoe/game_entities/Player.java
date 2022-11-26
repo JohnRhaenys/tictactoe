@@ -4,7 +4,6 @@ import javafx.scene.control.Label;
 
 public class Player {
     private final Label label;
-
     private final String gamerImagePath;
 
     public Player(Label label, String gamerImagePath) {

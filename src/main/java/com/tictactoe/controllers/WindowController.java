@@ -30,6 +30,9 @@ public class WindowController implements Initializable {
     private Game game;
 
     @FXML
+    private GridPane gameGrid;
+
+    @FXML
     private Label xPlayerSignalLabel;
 
     @FXML
@@ -57,13 +60,20 @@ public class WindowController implements Initializable {
         if (!this.game.isRunning()) {
             return;
         }
+
         Node clickedNode = event.getPickResult().getIntersectedNode();
         if (clickedNode instanceof ImageView imageView) {
             if (imageView.getImage() == null) {
                 this.setGridCellImage(this.game.getPlayerTurnManager().getCurrent(), imageView);
-                this.game.getPlayerTurnManager().switchTurns();
-                this.game.getPlayerTurnManager().getCurrent().setLabelText(GO_SIGNAL);
-                this.game.getPlayerTurnManager().getNext().setLabelText(WAIT_SIGNAL);
+                Player winner = this.game.getWinner(this.gameGrid);
+                if (winner != null) {
+                    System.out.println("THE WINNER IS " + winner);
+                }
+                else {
+                    this.game.getPlayerTurnManager().switchTurns();
+                    this.game.getPlayerTurnManager().getCurrent().setLabelText(GO_SIGNAL);
+                    this.game.getPlayerTurnManager().getNext().setLabelText(WAIT_SIGNAL);
+                }
             }
         }
     }

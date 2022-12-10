@@ -10,10 +10,7 @@ public record Line(ArrayList<ImageView> items) {
     public Player getWinner(Player current, Player next) {
         String currentPlayerFileName = getFilename(current.getGamerImagePath());
         boolean currentWins = this.items.stream().allMatch(item -> {
-            if (item == null) {
-                return false;
-            }
-            if (item.getImage() == null) {
+            if (item == null || item.getImage() == null) {
                 return false;
             }
             String cellFileName = getFilename(item.getImage().getUrl());
@@ -22,7 +19,7 @@ public record Line(ArrayList<ImageView> items) {
 
         String nextPlayerFileName = getFilename(next.getGamerImagePath());
         boolean nextWins = this.items.stream().allMatch(item -> {
-            if (item.getImage() == null) {
+            if (item == null || item.getImage() == null) {
                 return false;
             }
             String cellFileName = getFilename(item.getImage().getUrl());

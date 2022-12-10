@@ -99,4 +99,15 @@ public class Game {
         this.circlePlayer.setLabelText("YOU");
         this.xPlayer.setLabelText("MACHINE");
     }
+
+    public boolean isBoardFull(GridPane gameGrid) {
+        for (Node node : gameGrid.getChildren()) {
+            if (node instanceof ImageView imageView) {
+                if (imageView.getImage() == null) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 }

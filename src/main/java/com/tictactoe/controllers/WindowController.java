@@ -66,35 +66,52 @@ public class WindowController implements Initializable {
         }
 
         Node clickedNode = event.getPickResult().getIntersectedNode();
-        if (clickedNode instanceof ImageView imageView) {
-            if (imageView.getImage() == null) {
-                this.setGridCellImage(this.game.getPlayerTurnManager().getCurrent(), imageView);
-                Player winner = this.game.getWinner(this.gameGrid);
-                if (winner != null) {
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("Game over!!!");
-                    String winnerImagePath = getFilename(winner.getGamerImagePath());
-                    Character winnerName = null;
-                    if (winnerImagePath.equals(getFilename(CIRCLE_IMAGE_PATH))) {
-                        winnerName = 'O';
-                    }
-                    else if (winnerImagePath.equals(getFilename(X_IMAGE_PATH))) {
-                        winnerName = 'X';
-                    }
-                    alert.setContentText("The winner is " + winnerName);
-                    Optional<ButtonType> result = alert.showAndWait();
-                    if (result.isPresent() && result.get() == ButtonType.OK) {
-                        this.clearBoard();
-                        this.game.reset();
-                    }
-                }
-                else {
-                    this.game.getPlayerTurnManager().switchTurns();
-                    this.game.getPlayerTurnManager().getCurrent().setLabelText(GO_SIGNAL);
-                    this.game.getPlayerTurnManager().getNext().setLabelText(WAIT_SIGNAL);
+        if (!(clickedNode instanceof ImageView imageView)) {
+            return;
+        }
+
+        if (!this.isCellEmpty(imageView)) {
+            return;
+        }
+
+        this.setGridCellImage(this.game.getPlayerTurnManager().getCurrent(), imageView);
+        Player winner = this.game.getWinner(this.gameGrid);
+        if (winner == null) {
+            if (this.game.isBoardFull(this.gameGrid)) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Game over!!!");
+                alert.setContentText("It's a tie!");
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.isPresent()) {
+                    this.clearBoard();
+                    this.game.reset();
+                    return;
                 }
             }
+
+            this.game.getPlayerTurnManager().switchTurns();
+            this.game.getPlayerTurnManager().getCurrent().setLabelText(GO_SIGNAL);
+            this.game.getPlayerTurnManager().getNext().setLabelText(WAIT_SIGNAL);
         }
+        else {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Game over!!!");
+            String winnerImagePath = getFilename(winner.getGamerImagePath());
+            Character winnerName = null;
+            if (winnerImagePath.equals(getFilename(CIRCLE_IMAGE_PATH))) {
+                winnerName = 'O';
+            }
+            else if (winnerImagePath.equals(getFilename(X_IMAGE_PATH))) {
+                winnerName = 'X';
+            }
+            alert.setContentText("The winner is " + winnerName);
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                this.clearBoard();
+                this.game.reset();
+            }
+        }
+
     }
 
     private void setGridCellImage(Player player, ImageView imageView) {
@@ -115,5 +132,10 @@ public class WindowController implements Initializable {
                 imageView.setFitWidth(100);
             }
         }
+    }
+
+    private boolean isCellEmpty(ImageView imageView)
+    {
+        return imageView.getImage() == null;
     }
 }
